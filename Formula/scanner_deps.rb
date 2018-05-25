@@ -4,7 +4,7 @@ class ScannerDeps < Formula
   desc "Efficient video analysis at scale"
   homepage "http://scanner.run"
   url "https://github.com/scanner-research/scanner/archive/v0.2.0.tar.gz"
-  sha256 "25366f3365df2a5f89fffa99fdf05858773fe5f40764aed3439ed7ab7beaa96b"
+  sha256 "5fb700c7040c53ae3f422126ffb0417bb6a6e33eb406b719a54e42b7952966c3"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
