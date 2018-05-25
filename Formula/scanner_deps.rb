@@ -1,9 +1,9 @@
-class Scanner < Formula
+class ScannerDeps < Formula
   include Language::Python::Virtualenv
 
   desc "Efficient video analysis at scale"
   homepage "http://scanner.run"
-  url "https://github.com/scanner-research/scanner/archive/v0.0.5.tar.gz"
+  url "https://github.com/scanner-research/scanner/archive/v0.2.0.tar.gz"
   sha256 "25366f3365df2a5f89fffa99fdf05858773fe5f40764aed3439ed7ab7beaa96b"
 
   depends_on "cmake" => :build
@@ -41,19 +41,6 @@ class Scanner < Formula
            "--with-pybind", "/usr/local",
            "--with-libpqxx", "/usr/local",
            "--with-storehouse", "/usr/local"
-
-    FileUtils.mkdir "build" do
-      system "cmake", "..", *std_cmake_args
-      system "make", "install"
-    end
-
-    system "pip3 uninstall grpcio"
-    system "python3", "setup.py", "bdist_wheel"
-    system "pip3 install --prefix=" + libexec + " dist/scannerpy-" + version.to_s + "-*.whl"
-
-    site_packages = "lib/python#{python_version}/site-packages"
-    pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
-    (prefix/site_packages/"homebrew-scanner.pth").write pth_contents
   end
 
   test do
