@@ -3,8 +3,8 @@ class Hwang < Formula
 
   desc "Fast sparse video decode"
   homepage "https://github.com/scanner-research/hwang"
-  url "https://github.com/scanner-research/hwang/archive/v0.0.2.tar.gz"
-  sha256 "3d58269c942be387a0e2837785f62b6479a8957cdc48f037b9a91795b5721a65"
+  url "https://github.com/scanner-research/hwang/archive/v0.1.0.tar.gz"
+  sha256 "eb9f5a278bb1926c2e1f02292cb3b754297aaae7d0279148d4cea065a7cf76d7"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
@@ -43,9 +43,10 @@ class Hwang < Formula
     #   system "python3", *Language::Python.setup_install_args(libexec)
     # end
     chdir "python" do
-      system "python3", "setup.py", "bdist_wheel"
-      system "pip3", "install", "--prefix=" + libexec,
-             "dist/hwang-" + version.to_s + "-py3-none-any.whl"
+      system "python3", *Language::Python.setup_install_args(libexec)
+      #system "python3", "setup.py", "bdist_wheel"
+      #system "pip3", "install", "--prefix=" + libexec,
+      #       "dist/hwang-" + version.to_s + "-py3-none-any.whl"
     end
 
     site_packages = "lib/python#{python_version}/site-packages"

@@ -3,8 +3,8 @@ class Scanner < Formula
 
   desc "Efficient video analysis at scale"
   homepage "http://scanner.run"
-  url "https://github.com/scanner-research/scanner/archive/v0.0.2.tar.gz"
-  sha256 "cac986bdac92e189e1a4bc485bc3f5c8dafd29fa1bf6130845938bc1cadf3f24"
+  url "https://github.com/scanner-research/scanner/archive/v0.0.5.tar.gz"
+  sha256 "1e14d6a47d8f50150d2fb336f972a0ddfbcd034daac98b2a91b2e5b48edc555d"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
@@ -44,12 +44,13 @@ class Scanner < Formula
 
     FileUtils.mkdir "build" do
       system "cmake", "..", *std_cmake_args
-      system "make"
+      system "make", "install"
     end
 
-    system "python3", "python/setup.py", "bdist_wheel"
-    system "pip3", "install", "--prefix=" + libexec,
-           "dist/scannerpy-" + version.to_s + "-py3-none-any.whl"
+    system "python3", *Language::Python.setup_install_args(libexec)
+    #system "python3", "python/setup.py", "bdist_wheel"
+    #system "pip3", "install", "--prefix=" + libexec,
+    #       "dist/scannerpy-" + version.to_s + "-py3-none-any.whl"
 
     site_packages = "lib/python#{python_version}/site-packages"
     pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"

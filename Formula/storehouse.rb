@@ -1,8 +1,8 @@
 class Storehouse < Formula
   desc "File storage abstraction layer"
   homepage ""
-  url "https://github.com/scanner-research/storehouse/archive/v0.4.2.tar.gz"
-  sha256 "6469414aaab02ad27e4637a7ce5fcafc403158f6185013a1d0ea5fabf7cf30ca"
+  url "https://github.com/scanner-research/storehouse/archive/v0.5.0.tar.gz"
+  sha256 "55e34eb8672d429d08bd935d636d894b607d4984add8bf4079a9203388cdaecf"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
@@ -31,9 +31,12 @@ class Storehouse < Formula
       system "make", "install"
     end
 
-    system "python3", "python/setup.py", "bdist_wheel"
-    system "pip3", "install", "--prefix=" + libexec,
-           "dist/storehouse-" + version.to_s + "-py3-none-any.whl"
+    chdir "python" do
+      system "python3", *Language::Python.setup_install_args(libexec)
+      #system "python3", "setup.py", "install"
+      #system "pip3", "install", "--prefix=" + libexec,
+      #       "dist/storehouse-" + version.to_s + "-py3-*.whl"
+    end
 
     site_packages = "lib/python#{python_version}/site-packages"
     pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
