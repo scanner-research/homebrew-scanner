@@ -1,10 +1,10 @@
-class ScannerDeps < Formula
+class Scanner < Formula
   include Language::Python::Virtualenv
 
   desc "Efficient video analysis at scale"
   homepage "http://scanner.run"
-  url "https://github.com/scanner-research/scanner/archive/v0.2.0.tar.gz"
-  sha256 "5fb700c7040c53ae3f422126ffb0417bb6a6e33eb406b719a54e42b7952966c3"
+  url "https://github.com/scanner-research/scanner/archive/v0.2.4.tar.gz"
+  sha256 "c9e11fc6ea390d7ce4064f50c24453bdce2d74a773660124e3b7760ccfbe4f30"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
@@ -12,6 +12,7 @@ class ScannerDeps < Formula
   depends_on "python"
 
   depends_on "storehouse"
+  depends_on "hwang"
   depends_on "wget"
   depends_on "glog"
   depends_on "gflags"
@@ -36,9 +37,23 @@ class ScannerDeps < Formula
            "--with-protobuf", "/usr/local",
            "--with-grpc", "/usr/local",
            "--with-caffe", "/usr/local",
+           "--with-hwang", "/usr/local",
            "--with-pybind", "/usr/local",
            "--with-libpqxx", "/usr/local",
-           "--with-storehouse", "/usr/local"
+           "--with-storehouse", "/usr/local",
+           "--with-hwang", "/usr/local"
+
+    FileUtils.mkdir "build" do
+      system "cmake", "..", *std_cmake_args
+      system "make"
+    end
+
+    system "python3", "setup.py", "bdist_wheel"
+    system "pip3 install --prefix=" + libexec + " dist/scannerpy-" + version.to_s + "*.whl"
+
+    site_packages = "lib/python#{python_version}/site-packages"
+    pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
+    (prefix/site_packages/"homebrew-scanner.pth").write pth_contents
   end
 
   test do

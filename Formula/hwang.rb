@@ -3,8 +3,8 @@ class Hwang < Formula
 
   desc "Fast sparse video decode"
   homepage "https://github.com/scanner-research/hwang"
-  url "https://github.com/scanner-research/hwang/archive/v0.1.0.tar.gz"
-  sha256 "eb9f5a278bb1926c2e1f02292cb3b754297aaae7d0279148d4cea065a7cf76d7"
+  url "https://github.com/scanner-research/hwang/archive/v0.2.0.tar.gz"
+  sha256 "89d8659466cc9daa42a8bbb14007b40c7e9069f878d899c35afeca4d35d4ed49"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
@@ -16,15 +16,6 @@ class Hwang < Formula
   depends_on "ffmpeg"
   depends_on "pybind11"
   depends_on "protobuf"
-
-  resource "numpy" do
-    url "https://files.pythonhosted.org/packages/b0/2b/497c2bb7c660b2606d4a96e2035e92554429e139c6c71cdff67af66b58d2/numpy-1.14.3.zip"
-    sha256 "9016692c7d390f9d378fc88b7a799dc9caa7eb938163dda5276d3f3d6f75debf"
-  end
-  resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/64/88/d434873ba1ce02c0ed669f574afeabaeaaeec207929a41b5c1ed947270fc/setuptools-34.1.0.zip"
-    sha256 "c0cc0c7d7f86e03b63fd093032890569a944f210358fbfea339252ba33fb1097"
-  end
 
   def install
     python_version = Language::Python.major_minor_version("python3")
@@ -43,10 +34,8 @@ class Hwang < Formula
     #   system "python3", *Language::Python.setup_install_args(libexec)
     # end
     chdir "python" do
-      system "python3", *Language::Python.setup_install_args(libexec)
-      #system "python3", "setup.py", "bdist_wheel"
-      #system "pip3", "install", "--prefix=" + libexec,
-      #       "dist/hwang-" + version.to_s + "-py3-none-any.whl"
+      system "python3", "setup.py", "bdist_wheel"
+      system "pip3 install --prefix=" + libexec + " dist/hwang-" + version.to_s + "*.whl"
     end
 
     site_packages = "lib/python#{python_version}/site-packages"
