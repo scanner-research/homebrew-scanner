@@ -20,13 +20,15 @@ class Storehouse < Formula
     # ENV.deparallelize  # if your formula fails when building in parallel
     # Remove unrecognized options if warned by configure
     chdir "thirdparty" do
-      FileUtils.mkdir "build" do
+      FileUtils.mkdir "build"
+      FileUtils.cd("build") do
         system "cmake", "..", *std_cmake_args
         system "make"
       end
     end
 
-    FileUtils.mkdir "build" do
+    FileUtils.mkdir "build"
+    FileUtils.cd("build") do
       system "cmake", "..", *std_cmake_args
       system "make", "install"
     end

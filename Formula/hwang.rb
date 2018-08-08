@@ -25,7 +25,8 @@ class Hwang < Formula
            "--with-pybind", "/usr/local",
            "--with-protobuf", "/usr/local/",
            "--with-ffmpeg", "/usr/local"
-    FileUtils.mkdir "build" do
+    FileUtils.mkdir "build"
+    FileUtils.cd("build") do
       system "cmake", "..", *std_cmake_args
       system "make", "install"
     end

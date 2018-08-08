@@ -43,13 +43,17 @@ class Scanner < Formula
            "--with-storehouse", "/usr/local",
            "--with-hwang", "/usr/local"
 
-    FileUtils.mkdir "build" do
+    FileUtils.mkdir "build"
+
+    FileUtils.cd("build") do
       system "cmake", "..", *std_cmake_args
       system "make"
     end
 
     system "python3", "setup.py", "bdist_wheel"
+    system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " grpcio==1.12.0"
     system "pip3 install --prefix=" + libexec + " dist/*"
+    system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " protobuf==3.6.0"
 
     site_packages = "lib/python#{python_version}/site-packages"
     pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
