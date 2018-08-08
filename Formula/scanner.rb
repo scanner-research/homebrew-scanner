@@ -43,6 +43,11 @@ class Scanner < Formula
            "--with-storehouse", "/usr/local",
            "--with-hwang", "/usr/local"
 
+    # NOTE(apoms): remove this when leaving version 0.2.15
+    system "sed -i '' 's/py::gil_scoped_acquire acquire;//' scanner/engine/master.cpp"
+    system "sed -i '' 's/py::gil_scoped_acquire acquire;//' scanner/engine/worker.cpp"
+    system "sed -i '' 's @loader_path/lib @loader_path ' stdlib/CMakeLists.txt"
+
     FileUtils.mkdir "build"
 
     FileUtils.cd("build") do
@@ -53,6 +58,7 @@ class Scanner < Formula
     system "python3", "setup.py", "bdist_wheel"
     system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " grpcio==1.12.0"
     system "pip3 install --prefix=" + libexec + " dist/*"
+    system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " grpcio==1.14.0"
     system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " protobuf==3.6.0"
 
     site_packages = "lib/python#{python_version}/site-packages"

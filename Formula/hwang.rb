@@ -37,6 +37,7 @@ class Hwang < Formula
     chdir "python" do
       system "python3", "setup.py", "bdist_wheel"
       system "pip3 install --prefix=" + libexec + " dist/hwang-" + version.to_s + "*.whl"
+      system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " protobuf==3.6.0"
     end
 
     site_packages = "lib/python#{python_version}/site-packages"
