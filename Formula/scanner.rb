@@ -3,8 +3,8 @@ class Scanner < Formula
 
   desc "Efficient video analysis at scale"
   homepage "http://scanner.run"
-  url "https://github.com/scanner-research/scanner/archive/v0.2.15.tar.gz"
-  sha256 "8278f89e905506b527efaf0183008969c8ea637b35c9b022572cf49b9e2d4c7f"
+  url "https://github.com/scanner-research/scanner/archive/v0.2.18.tar.gz"
+  sha256 "6ba41e09bad32469a9bf00dc03a683c439573f2abb9d27ccc61f24b8f1606ec9"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
@@ -42,11 +42,6 @@ class Scanner < Formula
            "--with-libpqxx", "/usr/local",
            "--with-storehouse", "/usr/local",
            "--with-hwang", "/usr/local"
-
-    # NOTE(apoms): remove this when leaving version 0.2.15
-    system "sed -i '' 's/py::gil_scoped_acquire acquire;//' scanner/engine/master.cpp"
-    system "sed -i '' 's/py::gil_scoped_acquire acquire;//' scanner/engine/worker.cpp"
-    system "sed -i '' 's @loader_path/lib @loader_path ' stdlib/CMakeLists.txt"
 
     FileUtils.mkdir "build"
 
