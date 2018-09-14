@@ -1,8 +1,8 @@
 class Storehouse < Formula
   desc "File storage abstraction layer"
   homepage ""
-  url "https://github.com/scanner-research/storehouse/archive/v0.6.1.tar.gz"
-  sha256 "2182fb90b091b797871471e8236178dd0d25eea0da03a56ee06ca14364646a7d"
+  url "https://github.com/scanner-research/storehouse/archive/v0.6.3.tar.gz"
+  sha256 "dbe87ecb2cf76de1c08a32c104dbda7c0ce9d5652fb43df387f7a141884dc26c"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build

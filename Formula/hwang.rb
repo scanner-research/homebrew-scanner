@@ -3,8 +3,8 @@ class Hwang < Formula
 
   desc "Fast sparse video decode"
   homepage "https://github.com/scanner-research/hwang"
-  url "https://github.com/scanner-research/hwang/archive/v0.2.0.tar.gz"
-  sha256 "89d8659466cc9daa42a8bbb14007b40c7e9069f878d899c35afeca4d35d4ed49"
+  url "https://github.com/scanner-research/hwang/archive/v0.3.3.tar.gz"
+  sha256 "7009f6d4b3adbf42a8bc900b7866e351fbcc5f391e8975dc056afb407004afc9"
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
