@@ -3,8 +3,13 @@ class Hwang < Formula
 
   desc "Fast sparse video decode"
   homepage "https://github.com/scanner-research/hwang"
-  url "https://github.com/scanner-research/hwang/archive/v0.3.3.tar.gz"
-  sha256 "7009f6d4b3adbf42a8bc900b7866e351fbcc5f391e8975dc056afb407004afc9"
+  url "https://github.com/scanner-research/hwang/archive/v0.3.4.tar.gz"
+  sha256 "614a5eba3911f02d6b83e900ca090dbffeec4d7531167e1e960e73a7855f088b"
+
+  def caveats; <<~EOS
+    Please run 'pip3 install scannerpy' to install pip dependencies.
+  EOS
+  end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
@@ -31,13 +36,13 @@ class Hwang < Formula
       system "make", "install"
     end
 
-    # resource("six").stage do
-    #   system "python3", *Language::Python.setup_install_args(libexec)
-    # end
-    chdir "python" do
+    # Determine protobuf versions so we can install the correct pip packages
+    protobuf_version = Formula["protobuf"].version
+    system "sed -i '' \"s/'protobuf == [0-9.]*'/'protobuf == " + protobuf_version + "'/\" python/setup.py"
+
+    FileUtils.cd("python") do
       system "python3", "setup.py", "bdist_wheel"
-      system "pip3 install --prefix=" + libexec + " dist/hwang-" + version.to_s + "*.whl"
-      system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " protobuf==3.6.0"
+      system "pip3 install --no-dependencies --prefix=" + libexec + " dist/hwang-" + version.to_s + "*.whl"
     end
 
     site_packages = "lib/python#{python_version}/site-packages"

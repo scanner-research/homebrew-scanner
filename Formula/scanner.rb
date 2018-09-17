@@ -3,8 +3,13 @@ class Scanner < Formula
 
   desc "Efficient video analysis at scale"
   homepage "http://scanner.run"
-  url "https://github.com/scanner-research/scanner/archive/v0.2.18.tar.gz"
-  sha256 "6ba41e09bad32469a9bf00dc03a683c439573f2abb9d27ccc61f24b8f1606ec9"
+  url "https://github.com/scanner-research/scanner/archive/v0.2.20.tar.gz"
+  sha256 "14e5a2515eb85251a4395da31f960b62be54643d205b378a2ccef3cad1791c05"
+
+  def caveats; <<~EOS
+    Please run 'pip3 install scannerpy' to install pip dependencies.
+  EOS
+  end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
@@ -50,11 +55,14 @@ class Scanner < Formula
       system "make"
     end
 
+    # Determine protobuf versions so we can install the correct pip packages
+    protobuf_version = Formula["protobuf"].version
+    grpc_version = Formula["grpc"].version
+    system "sed -i '' \"s/'protobuf == [0-9.]*'/'protobuf == " + protobuf_version + "'/\" setup.py"
+    system "sed -i '' \"s/'grpcio == [0-9.rc]*'/'grpcio == " + grpc_version + "'/\" setup.py"
+
     system "python3", "setup.py", "bdist_wheel"
-    system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " grpcio==1.12.0"
-    system "pip3 install --prefix=" + libexec + " dist/*"
-    system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " grpcio==1.14.0"
-    system "CMAKE_PREFIX_PATH="" PKG_CONFIG_PATH="" pip3 install --prefix=" + libexec + " protobuf==3.6.0"
+    system "pip3 install --no-dependencies --prefix=" + libexec + " dist/*"
 
     site_packages = "lib/python#{python_version}/site-packages"
     pth_contents = "import site; site.addsitedir('#{libexec/site_packages}')\n"
