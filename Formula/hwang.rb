@@ -3,11 +3,11 @@ class Hwang < Formula
 
   desc "Fast sparse video decode"
   homepage "https://github.com/scanner-research/hwang"
-  url "https://github.com/scanner-research/hwang/archive/v0.3.4.tar.gz"
-  sha256 "614a5eba3911f02d6b83e900ca090dbffeec4d7531167e1e960e73a7855f088b"
+  url "https://github.com/scanner-research/hwang/archive/v0.3.5.tar.gz"
+  sha256 "a9c0425bef4e3c8dc784cea0d5b6c0b2b45c874e5e6e6edbd1b936477386d2b5"
 
   def caveats; <<~EOS
-    Please run 'pip3 install scannerpy' to install pip dependencies.
+    Please run 'pip3 install hwang' to install pip dependencies.
   EOS
   end
 
@@ -27,8 +27,9 @@ class Hwang < Formula
 
     system "bash", "deps.sh",
            "-a",
+           "--prefix", libexec,
            "--with-pybind", "/usr/local",
-           "--with-protobuf", "/usr/local/",
+           "--with-protobuf", "/usr/local",
            "--with-ffmpeg", "/usr/local"
     FileUtils.mkdir "build"
     FileUtils.cd("build") do
