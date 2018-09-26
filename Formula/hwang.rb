@@ -33,7 +33,7 @@ class Hwang < Formula
            "--with-ffmpeg", "/usr/local"
     FileUtils.mkdir "build"
     FileUtils.cd("build") do
-      system "cmake", "..", *std_cmake_args
+      system "cmake", "..", "-DCMAKE_PREFIX_PATH=" + libexec, *std_cmake_args
       system "make", "install"
     end
 
