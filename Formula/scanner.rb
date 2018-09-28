@@ -3,8 +3,8 @@ class Scanner < Formula
 
   desc "Efficient video analysis at scale"
   homepage "http://scanner.run"
-  url "https://github.com/scanner-research/scanner/archive/v0.2.21.tar.gz"
-  sha256 "540d8ad5120a46506a569127ccf85f596a99adb891b622df5b8d505d0afc3fc4"
+  url "https://github.com/scanner-research/scanner/archive/v0.2.22.tar.gz"
+  sha256 "4aeebf91eb844cd24c65784e912fdac6846e75fbef1a85ff1485dd6d2421fd84"
 
   def caveats; <<~EOS
     Please run 'pip3 install scannerpy' to install pip dependencies.
